@@ -1,0 +1,76 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#163a86"/>
+      <stop offset="1" stop-color="#0a1f4d"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe07a"/>
+      <stop offset="0.5" stop-color="#ffd24a"/>
+      <stop offset="1" stop-color="#e0a72b"/>
+    </linearGradient>
+    <radialGradient id="ballsh" cx="0.38" cy="0.32" r="0.75">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.7" stop-color="#eef3ff"/>
+      <stop offset="1" stop-color="#c2cfe8"/>
+    </radialGradient>
+  </defs>
+
+  <!-- rounded app background -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="6" y="6" width="500" height="500" rx="107" fill="none" stroke="#2a55b8" stroke-opacity="0.5" stroke-width="4"/>
+
+  <!-- emblem outer ring -->
+  <circle cx="256" cy="256" r="186" fill="none" stroke="url(#gold)" stroke-width="14"/>
+  <circle cx="256" cy="256" r="166" fill="none" stroke="url(#gold)" stroke-width="3" stroke-opacity="0.7"/>
+
+  <!-- top arc text band -->
+  <path id="arcTop" d="M 110 256 A 146 146 0 0 1 402 256" fill="none"/>
+  <text font-family="Arial Black, Arial, sans-serif" font-size="46" font-weight="900"
+        fill="url(#gold)" letter-spacing="10">
+    <textPath href="#arcTop" startOffset="50%" text-anchor="middle">WORLD CUP</textPath>
+  </text>
+
+  <!-- three stars top -->
+  <g fill="url(#gold)">
+    <path d="M256 96 l7 16 17 2 -12 12 3 17 -15 -8 -15 8 3 -17 -12 -12 17 -2 z" transform="translate(0,0)"/>
+  </g>
+
+  <!-- soccer ball -->
+  <g transform="translate(256,250)">
+    <circle r="92" fill="url(#ballsh)"/>
+    <circle r="92" fill="none" stroke="#9fb0cf" stroke-width="3"/>
+    <!-- center pentagon -->
+    <g fill="#15346f">
+      <polygon points="0,-30 28,-9 18,25 -18,25 -28,-9"/>
+    </g>
+    <!-- outer pentagons hint via connecting seams -->
+    <g stroke="#22356b" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0,-30 L0,-78"/>
+      <path d="M28,-9 L74,-26"/>
+      <path d="M18,25 L46,66"/>
+      <path d="M-18,25 L-46,66"/>
+      <path d="M-28,-9 L-74,-26"/>
+    </g>
+    <g fill="#15346f">
+      <polygon points="0,-80 20,-66 13,-44 -13,-44 -20,-66" opacity="0.92"/>
+      <polygon points="78,-30 86,-6 66,12 44,-4 52,-30" opacity="0.92"/>
+      <polygon points="50,70 30,84 8,70 16,46 42,46" opacity="0.92"/>
+      <polygon points="-50,70 -16,46 -8,70 -30,84" opacity="0.92"/>
+      <polygon points="-78,-30 -52,-30 -44,-4 -66,12 -86,-6" opacity="0.92"/>
+    </g>
+  </g>
+
+  <!-- 2026 banner -->
+  <g>
+    <rect x="146" y="372" width="220" height="56" rx="12" fill="url(#gold)"/>
+    <text x="256" y="412" font-family="Arial Black, Arial, sans-serif" font-size="44" font-weight="900"
+          fill="#0a1f4d" text-anchor="middle" letter-spacing="6">2026</text>
+  </g>
+
+  <!-- side laurels -->
+  <g stroke="url(#gold)" stroke-width="6" fill="none" stroke-linecap="round">
+    <path d="M96 360 q-18 -34 -8 -70"/>
+    <path d="M416 360 q18 -34 8 -70"/>
+  </g>
+</svg>
