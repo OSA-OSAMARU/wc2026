@@ -1,7 +1,7 @@
 // FIFA World Cup 2026 結果取得スクリプト（キー不要）
 // データ源: openfootball/worldcup.json (パブリックドメイン)
 // 出力: results.json （日本語チーム名・終了試合のスコア）
-import { writeFile } from "node:fs/promises";
+import { writeFile, readFile } from "node:fs/promises";
 
 const SRC =
   "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
@@ -40,6 +40,21 @@ for (const m of data.matches || []) {
   });
 }
 
-const payload = { updated: new Date().toISOString(), results };
-await writeFile("results.json", JSON.stringify(payload, null, 2) + "\n");
-console.log(`wrote results.json (${results.length} finished matches)`);
+// 既存の results.json と比較し、スコアに変化があるときだけ書き換える
+// （変化が無ければファイルを触らない → 無駄なコミット/再デプロイを防ぐ）
+let prevResults = null;
+try {
+  const prev = JSON.parse(await readFile("results.json", "utf8"));
+  prevResults = JSON.stringify(prev.results ?? null);
+} catch {
+  // 初回などファイルが無い/壊れている場合はそのまま書き込む
+}
+
+const nextResults = JSON.stringify(results);
+if (prevResults === nextResults) {
+  console.log(`no change (${results.length} finished matches) — skip write`);
+} else {
+  const payload = { updated: new Date().toISOString(), results };
+  await writeFile("results.json", JSON.stringify(payload, null, 2) + "\n");
+  console.log(`updated results.json (${results.length} finished matches)`);
+}
