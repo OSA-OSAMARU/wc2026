@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-13T03:10:53.023Z",
+  "updated": "2026-06-14T07:05:17.775Z",
   "results": [
     {
       "group": "A",
@@ -22,6 +22,30 @@
       "home": "カナダ",
       "away": "ボスニア・H",
       "hs": 1,
+      "as": 1,
+      "status": "FT"
+    },
+    {
+      "group": "B",
+      "home": "カタール",
+      "away": "スイス",
+      "hs": 1,
+      "as": 1,
+      "status": "FT"
+    },
+    {
+      "group": "C",
+      "home": "ブラジル",
+      "away": "モロッコ",
+      "hs": 1,
+      "as": 1,
+      "status": "FT"
+    },
+    {
+      "group": "C",
+      "home": "ハイチ",
+      "away": "スコットランド",
+      "hs": 0,
       "as": 1,
       "status": "FT"
     },
