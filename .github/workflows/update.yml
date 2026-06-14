@@ -2,11 +2,18 @@ name: update-results
 
 on:
   schedule:
-    - cron: "0 3 * * *"   # 毎日 03:00 UTC = 12:00 JST
-  workflow_dispatch:        # 手動実行も可（テスト用）
+    # 3時間おき／UTCの:17分（混雑する正時を回避）
+    # JST換算: 02:17, 05:17, 08:17, 11:17, 14:17, 17:17, 20:17, 23:17
+    - cron: "17 */3 * * *"
+  workflow_dispatch:        # 手動実行も可
 
 permissions:
   contents: write
+
+# 実行が重ならないようにする（push競合の防止）
+concurrency:
+  group: update-results
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -16,7 +23,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Fetch & build results.json
         run: node scripts/update-results.mjs
