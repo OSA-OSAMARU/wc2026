@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-17T22:53:39.512Z",
+  "updated": "2026-06-18T05:04:16.015Z",
   "results": [
     {
       "group": "A",
@@ -170,11 +170,27 @@
       "status": "FT"
     },
     {
+      "group": "K",
+      "home": "ウズベキスタン",
+      "away": "コロンビア",
+      "hs": 1,
+      "as": 3,
+      "status": "FT"
+    },
+    {
       "group": "L",
       "home": "イングランド",
       "away": "クロアチア",
       "hs": 4,
       "as": 2,
+      "status": "FT"
+    },
+    {
+      "group": "L",
+      "home": "ガーナ",
+      "away": "パナマ",
+      "hs": 1,
+      "as": 0,
       "status": "FT"
     }
   ]
