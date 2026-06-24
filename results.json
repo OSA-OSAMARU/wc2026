@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-23T22:39:22.395Z",
+  "updated": "2026-06-24T04:38:13.655Z",
   "results": [
     {
       "group": "A",
@@ -346,6 +346,14 @@
       "status": "FT"
     },
     {
+      "group": "K",
+      "home": "コロンビア",
+      "away": "DRコンゴ",
+      "hs": 1,
+      "as": 0,
+      "status": "FT"
+    },
+    {
       "group": "L",
       "home": "イングランド",
       "away": "クロアチア",
@@ -367,6 +375,14 @@
       "away": "ガーナ",
       "hs": 0,
       "as": 0,
+      "status": "FT"
+    },
+    {
+      "group": "L",
+      "home": "パナマ",
+      "away": "クロアチア",
+      "hs": 0,
+      "as": 1,
       "status": "FT"
     }
   ]
