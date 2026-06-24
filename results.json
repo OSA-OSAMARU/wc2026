@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-24T04:38:13.655Z",
+  "updated": "2026-06-24T22:40:59.033Z",
   "results": [
     {
       "group": "A",
@@ -63,6 +63,22 @@
       "away": "カタール",
       "hs": 6,
       "as": 0,
+      "status": "FT"
+    },
+    {
+      "group": "B",
+      "home": "スイス",
+      "away": "カナダ",
+      "hs": 2,
+      "as": 1,
+      "status": "FT"
+    },
+    {
+      "group": "B",
+      "home": "ボスニア・H",
+      "away": "カタール",
+      "hs": 3,
+      "as": 1,
       "status": "FT"
     },
     {
