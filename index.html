@@ -45,6 +45,12 @@
   header.top .sub{color:var(--muted);font-size:clamp(11px,2.4vw,14px);font-weight:600;}
   header.top .sub b{color:#fff;}
 
+  /* page nav tabs */
+  .nav{display:flex;gap:8px;justify-content:center;margin:2px 0 16px;}
+  .nav a{text-decoration:none;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:9px 22px;font-size:14px;font-weight:800;transition:all .15s ease;}
+  .nav a:hover{border-color:#4f7ad6;color:#fff;}
+  .nav a.active{background:linear-gradient(90deg,var(--band0),var(--band1));border-color:#7aa3ff;color:#fff;box-shadow:0 0 0 2px rgba(122,163,255,.25);}
+
   /* filter bar */
   .filters{
     display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
@@ -96,6 +102,7 @@
   .srow.qline{border-bottom:2px dashed rgba(255,210,74,.45);padding-bottom:7px;margin-bottom:1px;}
   .srow.jptm .tm{color:var(--jp);}
   .srow.jptm .rk{color:var(--jp);}
+  .rkno{font-size:.72em;font-weight:700;color:var(--muted);margin-left:3px;letter-spacing:0;}
   /* played score */
   .m.played .when .sc{font-size:20px;font-weight:900;color:#fff;line-height:1;font-variant-numeric:tabular-nums;}
   .m.played .when .sc .dash{color:var(--muted);margin:0 3px;font-weight:700;}
@@ -168,6 +175,11 @@
     <div class="sub">北中米大会（アメリカ・カナダ・メキシコ）／全104試合　<b>時刻はすべて日本時間（JST）</b></div>
     <div class="stamp" id="stamp"></div>
   </header>
+
+  <nav class="nav">
+    <a href="index.html" class="active">グループステージ</a>
+    <a href="knockout.html">決勝トーナメント</a>
+  </nav>
 
   <div class="filters">
     <button data-f="all" class="active">全試合</button>
@@ -368,6 +380,23 @@ function bchips(arr){ return arr.map(chip).join(""); }
 
 // ===== 結果データ（results.json）を合流して描画 =====
 let RESULTS = [];
+
+// FIFAランキング（公式 2026年6月11日時点／大会期間中は固定）
+const RANK = {
+  "メキシコ":14,"韓国":25,"チェコ":40,"南アフリカ":60,
+  "カナダ":30,"ボスニア・H":64,"カタール":56,"スイス":19,
+  "ブラジル":6,"モロッコ":8,"ハイチ":83,"スコットランド":42,
+  "アメリカ":17,"パラグアイ":41,"オーストラリア":27,"トルコ":22,
+  "ドイツ":10,"キュラソー":82,"コートジボワール":33,"エクアドル":23,
+  "オランダ":7,"日本":18,"スウェーデン":38,"チュニジア":45,
+  "ベルギー":9,"エジプト":29,"イラン":20,"ニュージーランド":85,
+  "スペイン":2,"カーボベルデ":67,"サウジアラビア":61,"ウルグアイ":16,
+  "フランス":3,"セネガル":15,"イラク":57,"ノルウェー":31,
+  "アルゼンチン":1,"アルジェリア":28,"オーストリア":24,"ヨルダン":63,
+  "ポルトガル":5,"DRコンゴ":46,"ウズベキスタン":50,"コロンビア":13,
+  "イングランド":4,"クロアチア":11,"ガーナ":73,"パナマ":34
+};
+function rk(name){ return RANK[name]!=null ? '<span class="rkno">('+RANK[name]+')</span>' : ''; }
 let STAND = {};
 let currentFilter = "all";
 
@@ -417,13 +446,13 @@ function render(){
       const jp=(s.team==="日本");
       return '<div class="srow'+(i===1?' qline':'')+(jp?' jptm':'')+'">'+
         '<span class="rk">'+(i+1)+'</span>'+
-        '<span class="tm">'+(jp?"🇯🇵 ":"")+s.team+'</span>'+
+        '<span class="tm">'+(jp?"🇯🇵 ":"")+s.team+rk(s.team)+'</span>'+
         '<span class="rec">'+s.pl+'試 '+s.w+'勝'+s.d+'分'+s.l+'敗</span>'+
         '<span class="pt">'+s.pts+'</span></div>';
     }).join("");
     const matches=g.m.map(x=>{
-      const teamLine=(x.jp?'<span style="color:var(--jp)">'+x.h+'</span>':x.h)+
-        '<span class="vs">vs</span>'+(x.jp?'<span style="color:var(--jp)">'+x.a+'</span>':x.a);
+      const teamLine=(x.jp?'<span style="color:var(--jp)">'+x.h+'</span>':x.h)+rk(x.h)+
+        '<span class="vs">vs</span>'+(x.jp?'<span style="color:var(--jp)">'+x.a+'</span>':x.a)+rk(x.a);
       const jpbadge=x.jp?'<span class="jpbadge">日本戦</span>':'';
       const r=resultFor(x.h,x.a);
       let whenHtml;
