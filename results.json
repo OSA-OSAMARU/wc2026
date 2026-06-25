@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-24T22:40:59.033Z",
+  "updated": "2026-06-25T04:35:31.901Z",
   "results": [
     {
       "group": "A",
@@ -28,6 +28,22 @@
     {
       "group": "A",
       "home": "メキシコ",
+      "away": "韓国",
+      "hs": 1,
+      "as": 0,
+      "status": "FT"
+    },
+    {
+      "group": "A",
+      "home": "チェコ",
+      "away": "メキシコ",
+      "hs": 0,
+      "as": 3,
+      "status": "FT"
+    },
+    {
+      "group": "A",
+      "home": "南アフリカ",
       "away": "韓国",
       "hs": 1,
       "as": 0,
@@ -111,6 +127,22 @@
       "away": "ハイチ",
       "hs": 3,
       "as": 0,
+      "status": "FT"
+    },
+    {
+      "group": "C",
+      "home": "スコットランド",
+      "away": "ブラジル",
+      "hs": 0,
+      "as": 3,
+      "status": "FT"
+    },
+    {
+      "group": "C",
+      "home": "モロッコ",
+      "away": "ハイチ",
+      "hs": 4,
+      "as": 2,
       "status": "FT"
     },
     {
