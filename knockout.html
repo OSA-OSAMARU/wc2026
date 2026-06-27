@@ -186,9 +186,10 @@
        transition:opacity .15s ease,box-shadow .15s ease,border-color .15s ease;}
   .box:not(.leaf)::before{content:"";position:absolute;left:-15px;top:50%;width:15px;height:2px;background:var(--line);transform:translateY(-1px);}
   .box .blabel{font-size:8.5px;font-weight:800;color:var(--muted);padding:3px 8px 0;letter-spacing:.04em;white-space:nowrap;}
-  .box .slot{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:5px 8px;font-size:11.5px;font-weight:800;color:#dce6fb;min-height:15px;}
+  .box .slot{display:flex;justify-content:space-between;align-items:center;gap:5px;padding:5px 7px;font-size:11px;font-weight:800;color:#dce6fb;min-height:15px;}
   .box .slot + .slot{border-top:1px solid rgba(39,74,143,.7);}
   .box .slot .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .box .slot .flag{width:16px;height:12px;object-fit:cover;border-radius:2px;margin-right:4px;vertical-align:-1px;box-shadow:0 0 0 1px rgba(0,0,0,.35);}
   .box .slot .nm .rkno{font-size:.72em;color:var(--muted);margin-left:2px;font-weight:700;}
   .box .slot.tbd .nm{color:var(--muted);font-weight:700;}
   .box .slot.jp .nm{color:var(--jp);}
@@ -242,6 +243,8 @@
 
 <script>
 const RANK={"メキシコ":14,"韓国":25,"チェコ":40,"南アフリカ":60,"カナダ":30,"ボスニア・H":64,"カタール":56,"スイス":19,"ブラジル":6,"モロッコ":8,"ハイチ":83,"スコットランド":42,"アメリカ":17,"パラグアイ":41,"オーストラリア":27,"トルコ":22,"ドイツ":10,"キュラソー":82,"コートジボワール":33,"エクアドル":23,"オランダ":7,"日本":18,"スウェーデン":38,"チュニジア":45,"ベルギー":9,"エジプト":29,"イラン":20,"ニュージーランド":85,"スペイン":2,"カーボベルデ":67,"サウジアラビア":61,"ウルグアイ":16,"フランス":3,"セネガル":15,"イラク":57,"ノルウェー":31,"アルゼンチン":1,"アルジェリア":28,"オーストリア":24,"ヨルダン":63,"ポルトガル":5,"DRコンゴ":46,"ウズベキスタン":50,"コロンビア":13,"イングランド":4,"クロアチア":11,"ガーナ":73,"パナマ":34};
+const FLAG={"メキシコ":"mx","韓国":"kr","チェコ":"cz","南アフリカ":"za","カナダ":"ca","ボスニア・H":"ba","カタール":"qa","スイス":"ch","ブラジル":"br","モロッコ":"ma","ハイチ":"ht","スコットランド":"gb-sct","アメリカ":"us","パラグアイ":"py","オーストラリア":"au","トルコ":"tr","ドイツ":"de","キュラソー":"cw","コートジボワール":"ci","エクアドル":"ec","オランダ":"nl","日本":"jp","スウェーデン":"se","チュニジア":"tn","ベルギー":"be","エジプト":"eg","イラン":"ir","ニュージーランド":"nz","スペイン":"es","カーボベルデ":"cv","サウジアラビア":"sa","ウルグアイ":"uy","フランス":"fr","セネガル":"sn","イラク":"iq","ノルウェー":"no","アルゼンチン":"ar","アルジェリア":"dz","オーストリア":"at","ヨルダン":"jo","ポルトガル":"pt","DRコンゴ":"cd","ウズベキスタン":"uz","コロンビア":"co","イングランド":"gb-eng","クロアチア":"hr","ガーナ":"gh","パナマ":"pa"};
+function flag(name){ const c=FLAG[name]; return c?'<img class="flag" src="https://flagcdn.com/w40/'+c+'.png" alt="" loading="lazy">':''; }
 const GROUPS={
   A:["メキシコ","韓国","チェコ","南アフリカ"],B:["カナダ","ボスニア・H","カタール","スイス"],
   C:["ブラジル","モロッコ","ハイチ","スコットランド"],D:["アメリカ","パラグアイ","オーストラリア","トルコ"],
@@ -301,7 +304,7 @@ const FINAL=node(104,"決勝",m101,m102);
 
 function rk(name){ return RANK[name]!=null?'<span class="rkno">('+RANK[name]+')</span>':''; }
 function slotHTML(s){
-  if(s.t){ const cls=s.jp?' jp':''; return '<div class="slot'+cls+'"><span class="nm">'+(s.jp?"🇯🇵 ":"")+s.t+rk(s.t)+'</span><span class="sc"></span></div>'; }
+  if(s.t){ const cls=s.jp?' jp':''; return '<div class="slot'+cls+'"><span class="nm">'+flag(s.t)+s.t+rk(s.t)+'</span><span class="sc"></span></div>'; }
   return '<div class="slot tbd"><span class="nm">'+s.p+'</span><span class="sc"></span></div>';
 }
 function renderNode(n){
