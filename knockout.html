@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFAワールドカップ2026 決勝トーナメント表｜日本時間</title>
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1f4d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="W杯2026">
+<style>
+  :root{
+    --bg0:#061128; --bg1:#0a2050; --panel:#0f2c63; --panel2:#103473;
+    --band0:#2a6be6; --band1:#1948b0; --line:#274a8f;
+    --ink:#ffffff; --muted:#9fb4dd; --gold:#ffd24a; --jp:#ff8a3d;
+    --chipfa:#eaf1ff; --chipfaink:#0b2350; --chipnet:#7fd6c2;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #14367e 0%, transparent 60%),
+      linear-gradient(180deg,var(--bg1) 0%, var(--bg0) 100%);
+    color:var(--ink);
+    font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP","Segoe UI",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:clamp(14px,3vw,34px);
+  }
+  .wrap{max-width:1180px;margin:0 auto;}
+  header.top{
+    text-align:center;margin-bottom:18px;
+  }
+  header.top h1{
+    font-size:clamp(22px,4.6vw,44px);
+    font-weight:900;letter-spacing:.01em;line-height:1.05;
+    margin:0 0 6px;
+    text-shadow:0 2px 0 rgba(0,0,0,.35);
+  }
+  header.top h1 .cup{color:var(--gold);}
+  header.top .sub{color:var(--muted);font-size:clamp(11px,2.4vw,14px);font-weight:600;}
+  header.top .sub b{color:#fff;}
+
+  /* page nav tabs */
+  .nav{display:flex;gap:8px;justify-content:center;margin:2px 0 16px;}
+  .nav a{text-decoration:none;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:9px 22px;font-size:14px;font-weight:800;transition:all .15s ease;}
+  .nav a:hover{border-color:#4f7ad6;color:#fff;}
+  .nav a.active{background:linear-gradient(90deg,var(--band0),var(--band1));border-color:#7aa3ff;color:#fff;box-shadow:0 0 0 2px rgba(122,163,255,.25);}
+
+  /* filter bar */
+  .filters{
+    display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+    margin:14px 0 22px;
+  }
+  .filters button{
+    background:var(--panel);color:var(--muted);
+    border:1px solid var(--line);border-radius:999px;
+    padding:8px 16px;font-size:13px;font-weight:800;cursor:pointer;
+    transition:all .15s ease;font-family:inherit;
+  }
+  .filters button:hover{border-color:#4f7ad6;color:#fff;}
+  .filters button.active{background:var(--band0);border-color:#7aa3ff;color:#fff;box-shadow:0 0 0 2px rgba(122,163,255,.25);}
+
+  .section-label{
+    font-size:clamp(15px,3vw,20px);font-weight:900;
+    margin:26px 2px 12px;letter-spacing:.04em;
+    display:flex;align-items:center;gap:10px;
+  }
+  .section-label::before{content:"";width:6px;height:22px;background:var(--gold);border-radius:2px;display:inline-block;}
+
+  /* group grid */
+  .grid{
+    display:grid;gap:14px;
+    grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+  }
+  .card{
+    background:linear-gradient(180deg,var(--panel2) 0%,var(--panel) 100%);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,.28);
+  }
+  .card .ghead{
+    background:linear-gradient(90deg,var(--band0),var(--band1));
+    padding:10px 14px;display:flex;align-items:baseline;gap:10px;
+    border-bottom:2px solid rgba(255,255,255,.18);
+  }
+  .card .ghead .gtag{font-size:12px;font-weight:800;color:#cfe0ff;letter-spacing:.18em;}
+  .card .ghead .gletter{font-size:24px;font-weight:900;line-height:1;}
+  /* roster */
+  .roster{display:flex;flex-wrap:wrap;gap:6px 14px;padding:10px 14px 8px;border-bottom:1px solid var(--line);}
+  .roster span{font-size:13px;font-weight:700;color:#dce6fb;white-space:nowrap;}
+  /* standings (順位表) */
+  .standings{padding:6px 10px 8px;border-bottom:1px solid var(--line);}
+  .srow{display:grid;grid-template-columns:24px 1fr auto auto;align-items:center;gap:8px;padding:4px 4px;border-radius:4px;}
+  .srow .rk{font-size:13px;font-weight:900;color:var(--muted);text-align:center;}
+  .srow .tm{font-size:13.5px;font-weight:800;color:#eaf1ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .srow .rec{font-size:10.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .srow .pt{font-size:16px;font-weight:900;color:var(--gold);min-width:22px;text-align:right;font-variant-numeric:tabular-nums;}
+  .srow.qline{border-bottom:2px dashed rgba(255,210,74,.45);padding-bottom:7px;margin-bottom:1px;}
+  .srow.jptm .tm{color:var(--jp);}
+  .srow.jptm .rk{color:var(--jp);}
+  .rkno{font-size:.72em;font-weight:700;color:var(--muted);margin-left:3px;letter-spacing:0;}
+  /* played score */
+  .m.played .when .sc{font-size:20px;font-weight:900;color:#fff;line-height:1;font-variant-numeric:tabular-nums;}
+  .m.played .when .sc .dash{color:var(--muted);margin:0 3px;font-weight:700;}
+  .m.played .when .ft{font-size:9.5px;font-weight:900;color:var(--gold);letter-spacing:.08em;margin-top:2px;}
+  .m.played{opacity:.92;}
+  .m.played .body .teams{color:#cdd9f2;}
+  .stamp{font-size:11px;font-weight:700;color:var(--gold);margin-top:6px;min-height:14px;}
+  .roster .jpteam{color:var(--jp);}
+  /* matches */
+  .matches{padding:6px 0 8px;}
+  .m{
+    display:grid;grid-template-columns:64px 1fr;gap:0 12px;
+    padding:9px 14px;border-top:1px solid rgba(39,74,143,.5);
+    align-items:center;
+  }
+  .m:first-child{border-top:none;}
+  .m.jp{background:linear-gradient(90deg,rgba(255,138,61,.16),transparent 70%);border-left:4px solid var(--jp);padding-left:10px;}
+  .m .when{font-variant-numeric:tabular-nums;}
+  .m .when .d{font-size:11px;font-weight:800;color:var(--muted);}
+  .m .when .t{font-size:18px;font-weight:900;color:#fff;line-height:1.05;}
+  .m .body .teams{font-size:13.5px;font-weight:800;line-height:1.3;}
+  .m .body .teams .vs{color:var(--muted);font-weight:700;margin:0 4px;font-size:11px;}
+  .m .body .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:5px;}
+  .m .body .node{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.04em;}
+  /* broadcaster chips */
+  .chip{font-size:10.5px;font-weight:900;border-radius:5px;padding:2px 7px;line-height:1.5;letter-spacing:.02em;white-space:nowrap;}
+  .chip.fa{background:var(--chipfa);color:var(--chipfaink);}      /* 地上波 */
+  .chip.bs{background:#cdd9f2;color:#13306a;}                     /* BS */
+  .chip.net{background:transparent;color:var(--chipnet);border:1.5px solid var(--chipnet);} /* DAZN */
+  .chip.free{background:var(--gold);color:#3a2a00;}               /* 無料 */
+  .jpbadge{font-size:10.5px;font-weight:900;background:var(--jp);color:#3a1500;border-radius:5px;padding:2px 7px;line-height:1.5;letter-spacing:.04em;white-space:nowrap;}
+
+  /* knockout list */
+  .ko{
+    background:linear-gradient(180deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,.28);
+  }
+  .ko .stage{
+    background:linear-gradient(90deg,var(--band1),#10306e);
+    padding:8px 14px;font-size:13px;font-weight:900;letter-spacing:.08em;
+    color:#dce6fb;border-top:2px solid rgba(255,255,255,.12);
+  }
+  .ko .stage:first-child{border-top:none;}
+  .krow{display:grid;grid-template-columns:88px 1fr;gap:0 12px;padding:9px 14px;border-top:1px solid rgba(39,74,143,.5);align-items:center;}
+  .krow .when .d{font-size:11px;font-weight:800;color:var(--muted);}
+  .krow .when .t{font-size:17px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;line-height:1.05;}
+  .krow .body .teams{font-size:13.5px;font-weight:800;}
+  .krow .body .teams .vs{color:var(--muted);font-weight:700;margin:0 5px;font-size:11px;}
+  .krow .body .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px;}
+
+  .note{
+    color:var(--muted);font-size:12px;line-height:1.7;
+    margin:22px 2px 6px;padding:14px 16px;
+    background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;
+  }
+  .note b{color:#fff;}
+  .legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0;}
+  .empty{display:none;text-align:center;color:var(--muted);padding:30px;font-weight:700;}
+  @media (max-width:480px){
+    .m{grid-template-columns:58px 1fr;}
+    .m .when .t{font-size:16px;}
+  }
+  /* ===== bracket ===== */
+  .swipehint{display:none;text-align:center;color:var(--gold);font-size:11px;font-weight:800;margin:0 0 8px;letter-spacing:.04em;}
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 2px 20px;}
+  .bwrap{width:max-content;margin:0 auto;}
+  .bhead{display:flex;margin:0 0 4px;}
+  .bhead .hcell{width:180px;flex:0 0 180px;}
+  .bhead .rn{font-size:12px;font-weight:900;color:#fff;text-align:center;width:150px;}
+  .bhead .rd{font-size:9.5px;font-weight:700;color:var(--muted);text-align:center;width:150px;margin-top:1px;}
+  .bracket{display:flex;align-items:center;}
+  .tie{display:flex;align-items:center;}
+  .feeders{display:flex;flex-direction:column;justify-content:center;position:relative;margin-right:30px;}
+  .feeders::after{content:"";position:absolute;left:100%;margin-left:15px;top:25%;height:50%;width:2px;background:var(--line);}
+  .feeders > .tie{position:relative;}
+  .feeders > .tie::after{content:"";position:absolute;left:100%;top:50%;width:15px;height:2px;background:var(--line);transform:translateY(-1px);}
+  .box{width:150px;flex:0 0 auto;margin:5px 0;position:relative;
+       background:linear-gradient(180deg,var(--panel2),var(--panel));
+       border:1px solid var(--line);border-radius:8px;box-shadow:0 3px 10px rgba(0,0,0,.22);
+       transition:opacity .15s ease,box-shadow .15s ease,border-color .15s ease;}
+  .box:not(.leaf)::before{content:"";position:absolute;left:-15px;top:50%;width:15px;height:2px;background:var(--line);transform:translateY(-1px);}
+  .box .blabel{font-size:8.5px;font-weight:800;color:var(--muted);padding:3px 8px 0;letter-spacing:.04em;white-space:nowrap;}
+  .box .slot{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:5px 8px;font-size:11.5px;font-weight:800;color:#dce6fb;min-height:15px;}
+  .box .slot + .slot{border-top:1px solid rgba(39,74,143,.7);}
+  .box .slot .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .box .slot .nm .rkno{font-size:.72em;color:var(--muted);margin-left:2px;font-weight:700;}
+  .box .slot.tbd .nm{color:var(--muted);font-weight:700;}
+  .box .slot.jp .nm{color:var(--jp);}
+  .box .slot .sc{color:var(--gold);font-variant-numeric:tabular-nums;font-weight:900;}
+  .box.final{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,210,74,.25),0 4px 14px rgba(0,0,0,.3);}
+  .box.final .blabel{color:var(--gold);}
+  .filtering .box:not(.hl){opacity:.32;}
+  .box.hl{border-color:var(--jp)!important;box-shadow:0 0 0 2px var(--jp),0 0 18px rgba(255,138,61,.55)!important;}
+  .third{width:150px;margin:16px auto 0;background:linear-gradient(180deg,#3a2f12,#2a230d);border:1px solid #6b5a2b;border-radius:8px;position:relative;transition:opacity .15s ease;}
+  .third .blabel{color:var(--gold);}
+  .legend2{color:var(--muted);font-size:11px;line-height:1.7;margin:14px 2px 0;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;}
+  .legend2 b{color:#fff;}
+  @media (max-width:760px){ .swipehint{display:block;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>FIFA ワールドカップ <span class="cup">2026</span></h1>
+    <div class="sub">決勝トーナメント表　<b>全32試合／日本時間（JST）</b></div>
+    <div class="stamp" id="stamp"></div>
+  </header>
+
+  <nav class="nav">
+    <a href="index.html">グループステージ</a>
+    <a href="knockout.html" class="active">決勝トーナメント</a>
+  </nav>
+
+  <div class="filters">
+    <button data-f="all" class="active">全試合</button>
+    <button data-f="today">今日</button>
+    <button data-f="tom">明日</button>
+    <button data-f="da">明後日</button>
+  </div>
+
+  <div class="swipehint">← 横にスワイプして全体を見る →</div>
+  <div class="scroller">
+    <div class="bwrap">
+      <div class="bhead" id="bhead"></div>
+      <div class="bracket" id="bracket"></div>
+    </div>
+  </div>
+
+  <div id="thirdwrap"></div>
+
+  <div class="legend2">
+    ・グループ確定後、<b>各組1位・2位</b>は試合結果から自動で実チームに入ります。<b>3位通過の8枠</b>は確定後に反映。<br>
+    ・日時はすべて日本時間（JST）。キックオフ時刻は確定に伴い変わる場合あり。
+  </div>
+</div>
+
+<script>
+const RANK={"メキシコ":14,"韓国":25,"チェコ":40,"南アフリカ":60,"カナダ":30,"ボスニア・H":64,"カタール":56,"スイス":19,"ブラジル":6,"モロッコ":8,"ハイチ":83,"スコットランド":42,"アメリカ":17,"パラグアイ":41,"オーストラリア":27,"トルコ":22,"ドイツ":10,"キュラソー":82,"コートジボワール":33,"エクアドル":23,"オランダ":7,"日本":18,"スウェーデン":38,"チュニジア":45,"ベルギー":9,"エジプト":29,"イラン":20,"ニュージーランド":85,"スペイン":2,"カーボベルデ":67,"サウジアラビア":61,"ウルグアイ":16,"フランス":3,"セネガル":15,"イラク":57,"ノルウェー":31,"アルゼンチン":1,"アルジェリア":28,"オーストリア":24,"ヨルダン":63,"ポルトガル":5,"DRコンゴ":46,"ウズベキスタン":50,"コロンビア":13,"イングランド":4,"クロアチア":11,"ガーナ":73,"パナマ":34};
+const GROUPS={
+  A:["メキシコ","韓国","チェコ","南アフリカ"],B:["カナダ","ボスニア・H","カタール","スイス"],
+  C:["ブラジル","モロッコ","ハイチ","スコットランド"],D:["アメリカ","パラグアイ","オーストラリア","トルコ"],
+  E:["ドイツ","キュラソー","コートジボワール","エクアドル"],F:["オランダ","日本","スウェーデン","チュニジア"],
+  G:["ベルギー","エジプト","イラン","ニュージーランド"],H:["スペイン","カーボベルデ","サウジアラビア","ウルグアイ"],
+  I:["フランス","セネガル","イラク","ノルウェー"],J:["アルゼンチン","アルジェリア","オーストリア","ヨルダン"],
+  K:["ポルトガル","DRコンゴ","ウズベキスタン","コロンビア"],L:["イングランド","クロアチア","ガーナ","パナマ"]
+};
+const DT={73:["6/29","04:00"],74:["6/30","05:30"],75:["6/30","10:00"],76:["6/30","02:00"],77:["7/1","06:00"],78:["7/1","02:00"],79:["7/1","10:00"],80:["7/2","01:00"],81:["7/2","09:00"],82:["7/2","05:00"],83:["7/3","08:00"],84:["7/3","04:00"],85:["7/3","12:00"],86:["7/4","07:00"],87:["7/4","10:30"],88:["7/4","03:00"],89:["7/5","06:00"],90:["7/5","02:00"],91:["7/6","05:00"],92:["7/6","09:00"],93:["7/7","04:00"],94:["7/7","09:00"],95:["7/8","01:00"],96:["7/8","05:00"],97:["7/10","05:00"],98:["7/11","04:00"],99:["7/12","06:00"],100:["7/12","10:00"],101:["7/15","04:00"],102:["7/16","04:00"],103:["7/19","06:00"],104:["7/20","04:00"]};
+
+// R32枠の参照定義（公式Annex）。pos="A1"=A組1位 / "A2"=2位。third="C/D/F/G/H"=該当組の3位通過枠（手動）
+function P(s){ return {pos:s}; }
+function T3(s){ return {third:s}; }
+const R32={
+  73:[P("A2"),P("B2")], 74:[P("E1"),T3("A/B/C/D/F")], 75:[P("F1"),P("C2")], 76:[P("C1"),P("F2")],
+  77:[P("I1"),T3("C/D/F/G/H")], 78:[P("E2"),P("I2")], 79:[P("A1"),T3("C/E/F/H/I")], 80:[P("L1"),T3("E/H/I/J/K")],
+  81:[P("D1"),T3("B/E/F/I/J")], 82:[P("G1"),T3("A/E/H/I/J")], 83:[P("K2"),P("L2")], 84:[P("H1"),P("J2")],
+  85:[P("B1"),T3("E/F/G/I/J")], 86:[P("J1"),P("H2")], 87:[P("K1"),T3("D/E/I/J/L")], 88:[P("D2"),P("G2")]
+};
+// 3位通過の手動マッピング（確定後にここへ "C/D/F/G/H":"スウェーデン" のように追加）
+const THIRD={};
+
+// results.json から各組の順位を算出（勝点→得失点→総得点）。全試合(各チーム3試合)消化で complete
+function computeStandings(results){
+  const ST={};
+  for(const g in GROUPS){
+    const t={}; GROUPS[g].forEach(tm=>t[tm]={team:tm,pts:0,gf:0,ga:0,pl:0});
+    (results||[]).forEach(r=>{
+      if(r.group!==g||r.hs==null||r.as==null) return;
+      const H=t[r.home],A=t[r.away]; if(!H||!A) return;
+      H.pl++;A.pl++;H.gf+=r.hs;H.ga+=r.as;A.gf+=r.as;A.ga+=r.hs;
+      if(r.hs>r.as)H.pts+=3; else if(r.hs<r.as)A.pts+=3; else {H.pts++;A.pts++;}
+    });
+    const table=Object.values(t).sort((p,q)=>q.pts-p.pts||((q.gf-q.ga)-(p.gf-p.ga))||(q.gf-p.gf));
+    ST[g]={table, complete:table.every(x=>x.pl>=3)};
+  }
+  return ST;
+}
+let ST={};
+function resolveSlot(s){
+  if(s.pos){ const g=s.pos[0], idx=+s.pos[1]-1, st=ST[g];
+    if(st&&st.complete){ const tm=st.table[idx].team; return {t:tm,jp:tm==="日本"}; }
+    return {p:g+"組"+s.pos[1]+"位"}; }
+  if(s.third){ if(THIRD[s.third]){ const tm=THIRD[s.third]; return {t:tm,jp:tm==="日本"}; }
+    return {p:"3位 "+s.third}; }
+  return {p:"?"};
+}
+
+function leaf(g){ return {type:"leaf",id:g,d:DT[g][0],t:DT[g][1],src:R32[g]}; }
+function node(id,round,a,b){ return {type:"node",id,round,d:DT[id][0],t:DT[id][1],kids:[a,b],
+  slots:[{p:"M"+a.id+" 勝者"},{p:"M"+b.id+" 勝者"}]}; }
+const m89=node(89,"R16",leaf(74),leaf(77)),m90=node(90,"R16",leaf(73),leaf(75)),m91=node(91,"R16",leaf(76),leaf(78)),m92=node(92,"R16",leaf(79),leaf(80));
+const m93=node(93,"R16",leaf(83),leaf(84)),m94=node(94,"R16",leaf(81),leaf(82)),m95=node(95,"R16",leaf(86),leaf(88)),m96=node(96,"R16",leaf(85),leaf(87));
+const m97=node(97,"QF",m89,m90),m98=node(98,"QF",m93,m94),m99=node(99,"QF",m91,m92),m100=node(100,"QF",m95,m96);
+const m101=node(101,"SF",m97,m98),m102=node(102,"SF",m99,m100);
+const FINAL=node(104,"決勝",m101,m102);
+
+function rk(name){ return RANK[name]!=null?'<span class="rkno">('+RANK[name]+')</span>':''; }
+function slotHTML(s){
+  if(s.t){ const cls=s.jp?' jp':''; return '<div class="slot'+cls+'"><span class="nm">'+(s.jp?"🇯🇵 ":"")+s.t+rk(s.t)+'</span><span class="sc"></span></div>'; }
+  return '<div class="slot tbd"><span class="nm">'+s.p+'</span><span class="sc"></span></div>';
+}
+function renderNode(n){
+  const tie=document.createElement("div"); tie.className="tie";
+  if(n.type==="node"){ const f=document.createElement("div"); f.className="feeders";
+    n.kids.forEach(k=>f.appendChild(renderNode(k))); tie.appendChild(f); }
+  const box=document.createElement("div");
+  box.className="box"+(n.type==="leaf"?" leaf":"")+(n.id===104?" final":"");
+  box.setAttribute("data-date",n.d);
+  const slots = n.type==="leaf" ? n.src.map(resolveSlot) : n.slots;
+  box.innerHTML='<div class="blabel">M'+n.id+' ・ '+n.d+' '+n.t+'</div>'+slotHTML(slots[0])+slotHTML(slots[1]);
+  tie.appendChild(box);
+  return tie;
+}
+function render(){
+  const root=document.getElementById("bracket"); root.innerHTML="";
+  root.appendChild(renderNode(FINAL));
+}
+render();
+
+const HEAD=[["ラウンド32","6/29〜7/4"],["ラウンド16","7/5〜7/8"],["準々決勝","7/10〜7/12"],["準決勝","7/15〜7/16"],["決勝","7/20"]];
+document.getElementById("bhead").innerHTML=HEAD.map(h=>'<div class="hcell"><div class="rn">'+h[0]+'</div><div class="rd">'+h[1]+'</div></div>').join("");
+document.getElementById("thirdwrap").innerHTML='<div class="third" data-date="7/19"><div class="blabel">3位決定戦 M103 ・ 7/19 06:00</div><div class="slot tbd"><span class="nm">M101 敗者</span><span class="sc"></span></div><div class="slot tbd"><span class="nm">M102 敗者</span><span class="sc"></span></div></div>';
+
+function md(d){ return (d.getMonth()+1)+"/"+d.getDate(); }
+const now=new Date(), D0=md(now);
+const _1=new Date(now);_1.setDate(now.getDate()+1);const D1=md(_1);
+const _2=new Date(now);_2.setDate(now.getDate()+2);const D2=md(_2);
+document.querySelector('[data-f="today"]').textContent="今日 "+D0;
+document.querySelector('[data-f="tom"]').textContent="明日 "+D1;
+document.querySelector('[data-f="da"]').textContent="明後日 "+D2;
+const bracketEl=document.getElementById("bracket"),thirdEl=document.getElementById("thirdwrap");
+const btns=document.querySelectorAll(".filters button");
+btns.forEach(btn=>btn.addEventListener("click",()=>{
+  btns.forEach(b=>b.classList.remove("active")); btn.classList.add("active");
+  const f=btn.dataset.f;
+  document.querySelectorAll(".box, .third").forEach(b=>b.classList.remove("hl"));
+  if(f==="all"){ bracketEl.classList.remove("filtering"); thirdEl.classList.remove("filtering"); return; }
+  const target=(f==="today")?D0:(f==="tom")?D1:D2;
+  bracketEl.classList.add("filtering"); thirdEl.classList.add("filtering");
+  document.querySelectorAll(".box, .third").forEach(b=>{ if(b.getAttribute("data-date")===target) b.classList.add("hl"); });
+}));
+
+fetch("results.json?_="+Date.now()).then(r=>r.ok?r.json():null).then(d=>{
+  if(!d) return;
+  ST=computeStandings(d.results); render();
+  if(d.updated){ const dt=new Date(d.updated);
+    document.getElementById("stamp").textContent="結果更新: "+dt.toLocaleString("ja-JP",{timeZone:"Asia/Tokyo",month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})+" 時点"; }
+}).catch(()=>{});
+</script>
+</body>
+</html>
