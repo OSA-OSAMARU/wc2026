@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-27T05:09:17.721Z",
+  "updated": "2026-06-28T04:53:06.365Z",
   "results": [
     {
       "group": "A",
@@ -466,6 +466,22 @@
       "status": "FT"
     },
     {
+      "group": "J",
+      "home": "アルジェリア",
+      "away": "オーストリア",
+      "hs": 3,
+      "as": 3,
+      "status": "FT"
+    },
+    {
+      "group": "J",
+      "home": "ヨルダン",
+      "away": "アルゼンチン",
+      "hs": 1,
+      "as": 3,
+      "status": "FT"
+    },
+    {
       "group": "K",
       "home": "ポルトガル",
       "away": "DRコンゴ",
@@ -498,6 +514,22 @@
       "status": "FT"
     },
     {
+      "group": "K",
+      "home": "コロンビア",
+      "away": "ポルトガル",
+      "hs": 0,
+      "as": 0,
+      "status": "FT"
+    },
+    {
+      "group": "K",
+      "home": "DRコンゴ",
+      "away": "ウズベキスタン",
+      "hs": 3,
+      "as": 1,
+      "status": "FT"
+    },
+    {
       "group": "L",
       "home": "イングランド",
       "away": "クロアチア",
@@ -526,6 +558,22 @@
       "home": "パナマ",
       "away": "クロアチア",
       "hs": 0,
+      "as": 1,
+      "status": "FT"
+    },
+    {
+      "group": "L",
+      "home": "パナマ",
+      "away": "イングランド",
+      "hs": 0,
+      "as": 2,
+      "status": "FT"
+    },
+    {
+      "group": "L",
+      "home": "クロアチア",
+      "away": "ガーナ",
+      "hs": 2,
       "as": 1,
       "status": "FT"
     }
