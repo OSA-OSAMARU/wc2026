@@ -265,7 +265,16 @@ const R32={
   85:[P("B1"),T3("E/F/G/I/J")], 86:[P("J1"),P("H2")], 87:[P("K1"),T3("D/E/I/J/L")], 88:[P("D2"),P("G2")]
 };
 // 3位通過の手動マッピング（確定後にここへ "C/D/F/G/H":"スウェーデン" のように追加）
-const THIRD={};
+const THIRD={
+  "A/B/C/D/F":"パラグアイ",
+  "C/D/F/G/H":"スウェーデン",
+  "C/E/F/H/I":"エクアドル",
+  "E/H/I/J/K":"DRコンゴ",
+  "B/E/F/I/J":"ボスニア・H",
+  "A/E/H/I/J":"セネガル",
+  "E/F/G/I/J":"アルジェリア",
+  "D/E/I/J/L":"ガーナ"
+};
 
 // results.json から各組の順位を算出（勝点→得失点→総得点）。全試合(各チーム3試合)消化で complete
 function computeStandings(results){
