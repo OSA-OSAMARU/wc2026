@@ -32,12 +32,18 @@ for (const m of data.matches || []) {
   if (!Array.isArray(ft) || ft.length < 2) continue;       // 未終了はスキップ
   const home = JP[m.team1], away = JP[m.team2];
   if (!home || !away) continue;                            // 決勝T等の未確定枠はスキップ
-  results.push({
+  const entry = {
     group: (m.group || "").replace("Group ", "") || null,
     home, away,
     hs: ft[0], as: ft[1],
     status: "FT"
-  });
+  };
+  if (m.num != null) entry.num = m.num;                    // 決勝Tの試合番号
+  const pen = m.score && (m.score.p || m.score.pen || m.score.penalties);
+  if (Array.isArray(pen) && pen.length >= 2) {             // PK戦のスコア
+    entry.ph = pen[0]; entry.pa = pen[1];
+  }
+  results.push(entry);
 }
 
 // 既存の results.json と比較し、スコアに変化があるときだけ書き換える
