@@ -194,6 +194,11 @@
   .box .slot.tbd .nm{color:var(--muted);font-weight:700;}
   .box .slot.jp .nm{color:var(--jp);}
   .box .slot .sc{color:var(--gold);font-variant-numeric:tabular-nums;font-weight:900;}
+  .box .slot.win{background:rgba(255,210,74,.12);}
+  .box .slot.win .sc{color:var(--gold);}
+  .box .slot.lose{opacity:.45;}
+  .box .slot.lose .sc{color:var(--muted);}
+  .box .slot .pk{font-size:.72em;color:var(--muted);margin-left:3px;font-weight:700;}
   .box.final{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,210,74,.25),0 4px 14px rgba(0,0,0,.3);}
   .box.final .blabel{color:var(--gold);}
   .filtering .box:not(.hl){opacity:.32;}
@@ -312,9 +317,41 @@ const m101=node(101,"SF",m97,m98),m102=node(102,"SF",m99,m100);
 const FINAL=node(104,"決勝",m101,m102);
 
 function rk(name){ return RANK[name]!=null?'<span class="rkno">('+RANK[name]+')</span>':''; }
-function slotHTML(s){
-  if(s.t){ const cls=s.jp?' jp':''; return '<div class="slot'+cls+'"><span class="nm">'+flag(s.t)+s.t+rk(s.t)+'</span><span class="sc"></span></div>'; }
-  return '<div class="slot tbd"><span class="nm">'+s.p+'</span><span class="sc"></span></div>';
+
+// KO試合の結果インデックス（group==null の試合をチーム名ペアで引く）
+let KORES={};
+function buildKO(results){
+  KORES={};
+  (results||[]).forEach(r=>{
+    if(r.group!=null||r.hs==null||r.as==null) return;
+    KORES[r.home+"|"+r.away]={home:r.home,away:r.away,hs:r.hs,as:r.as,ph:r.ph,pa:r.pa};
+  });
+}
+function koResult(a,b){ return KORES[a+"|"+b]||KORES[b+"|"+a]||null; }
+
+// 各試合の対戦カード・スコア・勝者を確定（ボトムアップ）。勝者は親の枠へ伝播
+function process(n){
+  let s0,s1;
+  if(n.type==="leaf"){ s0=resolveSlot(n.src[0]); s1=resolveSlot(n.src[1]); }
+  else { const a=process(n.kids[0]), b=process(n.kids[1]);
+    s0 = a.win?{t:a.win,jp:a.win==="日本"}:{p:"M"+n.kids[0].id+" 勝者"};
+    s1 = b.win?{t:b.win,jp:b.win==="日本"}:{p:"M"+n.kids[1].id+" 勝者"}; }
+  let sc=null,pk=null,win=null;
+  if(s0.t&&s1.t){ const r=koResult(s0.t,s1.t);
+    if(r){ let h0,h1,p0,p1;
+      if(r.home===s0.t){h0=r.hs;h1=r.as;p0=r.ph;p1=r.pa;} else {h0=r.as;h1=r.hs;p0=r.pa;p1=r.ph;}
+      sc=[h0,h1];
+      if(h0>h1) win=s0.t; else if(h1>h0) win=s1.t;
+      else if(p0!=null&&p1!=null){ pk=[p0,p1]; win=(p0>p1)?s0.t:s1.t; }
+    } }
+  n._s0=s0;n._s1=s1;n._sc=sc;n._pk=pk;n._win=win;
+  return {win};
+}
+function scTxt(v,p){ return (v==null?"":v)+(p!=null?'<span class="pk">PK'+p+'</span>':''); }
+function slotHTML(s,scv,pkv,isWin,isLose){
+  const cls=(s.t?(s.jp?' jp':''):' tbd')+(isWin?' win':'')+(isLose?' lose':'');
+  const nm = s.t ? (flag(s.t)+s.t+rk(s.t)) : s.p;
+  return '<div class="slot'+cls+'"><span class="nm">'+nm+'</span><span class="sc">'+scTxt(scv,pkv)+'</span></div>';
 }
 function renderNode(n){
   const tie=document.createElement("div"); tie.className="tie";
@@ -323,12 +360,17 @@ function renderNode(n){
   const box=document.createElement("div");
   box.className="box"+(n.type==="leaf"?" leaf":"")+(n.id===104?" final":"");
   box.setAttribute("data-date",n.d);
-  const slots = n.type==="leaf" ? n.src.map(resolveSlot) : n.slots;
-  box.innerHTML='<div class="blabel">M'+n.id+' ・ '+n.d+' '+n.t+'</div>'+slotHTML(slots[0])+slotHTML(slots[1]);
+  const s0=n._s0,s1=n._s1,sc=n._sc,pk=n._pk,win=n._win;
+  const w0=!!(win&&win===s0.t), l0=!!(win&&s0.t&&win!==s0.t);
+  const w1=!!(win&&win===s1.t), l1=!!(win&&s1.t&&win!==s1.t);
+  box.innerHTML='<div class="blabel">M'+n.id+' ・ '+n.d+' '+n.t+'</div>'+
+    slotHTML(s0, sc?sc[0]:null, pk?pk[0]:null, w0, l0)+
+    slotHTML(s1, sc?sc[1]:null, pk?pk[1]:null, w1, l1);
   tie.appendChild(box);
   return tie;
 }
 function render(){
+  process(FINAL);
   const root=document.getElementById("bracket"); root.innerHTML="";
   root.appendChild(renderNode(FINAL));
 }
@@ -359,7 +401,7 @@ btns.forEach(btn=>btn.addEventListener("click",()=>{
 
 fetch("results.json?_="+Date.now()).then(r=>r.ok?r.json():null).then(d=>{
   if(!d) return;
-  ST=computeStandings(d.results); render();
+  ST=computeStandings(d.results); buildKO(d.results); render();
   if(d.updated){ const dt=new Date(d.updated);
     document.getElementById("stamp").textContent="結果更新: "+dt.toLocaleString("ja-JP",{timeZone:"Asia/Tokyo",month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})+" 時点"; }
 }).catch(()=>{});
