@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-01T10:16:08.399Z",
+  "updated": "2026-07-01T20:16:15.589Z",
   "results": [
     {
       "group": "A",
@@ -643,6 +643,15 @@
       "as": 0,
       "status": "FT",
       "num": 79
+    },
+    {
+      "group": null,
+      "home": "イングランド",
+      "away": "DRコンゴ",
+      "hs": 2,
+      "as": 1,
+      "status": "FT",
+      "num": 80
     }
   ]
 }
