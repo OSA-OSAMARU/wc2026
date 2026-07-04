@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-03T22:16:31.540Z",
+  "updated": "2026-07-04T04:03:23.447Z",
   "results": [
     {
       "group": "A",
@@ -697,6 +697,24 @@
       "as": 0,
       "status": "FT",
       "num": 85
+    },
+    {
+      "group": null,
+      "home": "アルゼンチン",
+      "away": "カーボベルデ",
+      "hs": 1,
+      "as": 1,
+      "status": "FT",
+      "num": 86
+    },
+    {
+      "group": null,
+      "home": "コロンビア",
+      "away": "ガーナ",
+      "hs": 1,
+      "as": 0,
+      "status": "FT",
+      "num": 87
     },
     {
       "group": null,
