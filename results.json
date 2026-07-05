@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T19:39:06.398Z",
+  "updated": "2026-07-05T04:31:20.393Z",
   "results": [
     {
       "group": "A",
@@ -726,6 +726,15 @@
       "num": 88,
       "ph": 2,
       "pa": 4
+    },
+    {
+      "group": null,
+      "home": "パラグアイ",
+      "away": "フランス",
+      "hs": 0,
+      "as": 1,
+      "status": "FT",
+      "num": 89
     },
     {
       "group": null,
