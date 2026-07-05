@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-05T04:31:20.393Z",
+  "updated": "2026-07-05T22:14:26.634Z",
   "results": [
     {
       "group": "A",
@@ -744,6 +744,15 @@
       "as": 3,
       "status": "FT",
       "num": 90
+    },
+    {
+      "group": null,
+      "home": "ブラジル",
+      "away": "ノルウェー",
+      "hs": 1,
+      "as": 2,
+      "status": "FT",
+      "num": 91
     }
   ]
 }
