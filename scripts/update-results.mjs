@@ -39,6 +39,10 @@ for (const m of data.matches || []) {
     status: "FT"
   };
   if (m.num != null) entry.num = m.num;                    // 決勝Tの試合番号
+  const et = m.score && m.score.et;
+  if (Array.isArray(et) && et.length >= 2) {                // 延長(120分)のスコア
+    entry.eh = et[0]; entry.ea = et[1];
+  }
   const pen = m.score && (m.score.p || m.score.pen || m.score.penalties);
   if (Array.isArray(pen) && pen.length >= 2) {             // PK戦のスコア
     entry.ph = pen[0]; entry.pa = pen[1];
